@@ -21,6 +21,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 from app.config import Config
 from app.controller import Controller
 from ui.main_window import MainWindow
+from vision.face_tracker import ensure_model
 
 
 def _configure_logging() -> None:
@@ -35,6 +36,17 @@ def main() -> None:
     _configure_logging()
     logger = logging.getLogger(__name__)
     logger.info("Eye Tracking Aviation – starting up.")
+
+    # ── Ensure the MediaPipe model is present (downloads once, ~10 MB) ────────
+    try:
+        ensure_model()
+    except RuntimeError as exc:
+        # Model download failed – show error before Qt window opens
+        print(f"\nERROR: {exc}\n", file=sys.stderr)
+        # Try to show a Qt dialog if possible
+        _app = QApplication.instance() or QApplication(sys.argv)
+        QMessageBox.critical(None, "Model Download Failed", str(exc))
+        sys.exit(1)
 
     app = QApplication(sys.argv)
     app.setApplicationName("EyeTrackingAviation")

@@ -61,6 +61,9 @@ assets/cockpit.jpeg
 # The generator script IS tracked:
 !assets/generate_placeholder.py
 
+# ── MediaPipe model file (~10 MB binary, auto-downloaded on first run) ────────
+assets/face_landmarker.task
+
 # ── Jupyter / notebooks (if any exploratory work) ────────────────────────────
 .ipynb_checkpoints/
 *.ipynb

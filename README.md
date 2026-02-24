@@ -202,8 +202,9 @@ eye_tracking_aviation/
 | Poor calibration (RMS > 0.06) | Improve lighting; ensure face is centred; redo calibration |
 | Gaze jitter | Lower EMA alpha (more smoothing) in Settings |
 | Face not detected | Check lighting; ensure both eyes visible; reduce Min Confidence |
+| `AttributeError: module 'mediapipe' has no attribute 'solutions'` | MediaPipe 0.10.30+ removed the old API.  The app now uses the Tasks API automatically — delete any old venv and reinstall with `pip install -e ".[dev]"`. |
 | `ModuleNotFoundError: No module named 'cv2'` | Run `pip install -e ".[dev]"` inside the activated venv |
-| `ModuleNotFoundError: No module named 'mediapipe'` | Run `pip install mediapipe>=0.10.30` inside the activated venv |
+| Model download fails on first run | Ensure internet access; the model (~10 MB) is saved to `assets/face_landmarker.task` automatically on first startup |
 
 ---
 
