@@ -1,0 +1,69 @@
+# ── Virtual environment ───────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Python cache ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# ── Build / packaging ─────────────────────────────────────────────────────────
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# ── Test / coverage ───────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ── Type checking ─────────────────────────────────────────────────────────────
+.mypy_cache/
+
+# ── Linting ───────────────────────────────────────────────────────────────────
+.ruff_cache/
+
+# ── IDE / editors ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS files ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Session data (generated at runtime – can be large) ───────────────────────
+runs/
+# Keep the runs/ directory itself tracked (empty placeholder)
+!runs/.gitkeep
+
+# ── Calibration profiles (user-specific, not portable) ───────────────────────
+profiles/
+!profiles/.gitkeep
+
+# ── App config (user-specific) ────────────────────────────────────────────────
+config.json
+
+# ── Cockpit image (may be large/proprietary; add your own) ───────────────────
+assets/cockpit.jpg
+assets/cockpit.png
+assets/cockpit.jpeg
+# The generator script IS tracked:
+!assets/generate_placeholder.py
+
+# ── Jupyter / notebooks (if any exploratory work) ────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Claude Code internal ──────────────────────────────────────────────────────
+.claude/
