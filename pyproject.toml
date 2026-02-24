@@ -17,8 +17,8 @@ dependencies = [
     "numpy>=1.26,<3",
     "scikit-learn>=1.4,<2",
 
-    # UI
-    "PySide6>=6.7,<7",
+    # UI — pin below 6.10 which has a DLL compatibility issue on some Windows builds
+    "PySide6>=6.7,<6.10",
 
     # Charts
     "matplotlib>=3.9,<4",

@@ -1034,6 +1034,50 @@ dev = [
 `pip install -e ".[dev]"` installs both the main `dependencies` and the `dev`
 optional extras.
 
+### Real-world gotcha: Windows DLL conflicts with PySide6
+
+When this project was first set up, running `python app/main.py` raised:
+```
+ImportError: DLL load failed while importing QtWidgets:
+The specified procedure could not be found.
+```
+
+**What happened:**
+
+1. The system Python at `C:\...\Python313\python` is the **bare CPython installer
+   from python.org**, which has no Qt installed globally.
+2. The `.venv` was created from that Python and `pip` installed **PySide6 6.10.2**
+   (the latest at the time).
+3. PySide6 6.10.2 ships with Qt 6.10, which requires a newer Windows API than
+   what was available on this machine — specifically a procedure that is
+   "exported" by a system DLL but not present in the installed version.
+
+**The fix:**
+
+Re-create the venv using **Anaconda Python 3.13.9** (which ships with C++
+runtimes and DLL compatibility layers) and pin `PySide6 < 6.10` in
+`pyproject.toml`, which installs the stable **6.9.3** instead.
+
+```bash
+# Remove the broken venv, recreate from Anaconda:
+rm -rf .venv
+/c/Users/<you>/anaconda3/python -m venv .venv
+.venv/Scripts/python -m pip install -e ".[dev]"
+# → installs PySide6 6.9.3  ✓
+```
+
+**Lessons learned:**
+
+- The Python *interpreter* version (`3.13.7` vs `3.13.9`) matters less than
+  the *environment* (bare CPython vs Anaconda) when dealing with C extension
+  DLLs on Windows.
+- Library versions on PyPI are not always Windows-compatible on all builds.
+  When a GUI library crashes with a DLL error, **downgrading one minor version**
+  is often the fastest fix.
+- Always test `from PySide6.QtWidgets import QApplication` (not just
+  `import PySide6`) when verifying the installation, because the heavy DLL
+  loading only happens when you actually import a Qt submodule.
+
 ### Linting and formatting tools
 
 | Tool | Purpose |

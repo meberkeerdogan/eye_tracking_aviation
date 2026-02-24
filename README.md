@@ -30,11 +30,22 @@ each zone, and generates a structured debrief report after the session.
 
 ### 1 – Install dependencies
 
-```bash
-# Python 3.11+ recommended
-python -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
+> **Windows note:** Use the **Anaconda** (or any non-system) Python to create
+> the venv.  PySide6 ≥ 6.10 has a DLL incompatibility with some Windows builds;
+> the pin `<6.10` in `pyproject.toml` handles this automatically.
 
+```bash
+# Use Anaconda Python (or any Python 3.11+ that is NOT the bare Windows store Python)
+# On Windows with Anaconda installed:
+C:\Users\<you>\anaconda3\python -m venv .venv
+
+# Activate (Git Bash / MINGW64):
+source .venv/Scripts/activate
+
+# Activate (Command Prompt / PowerShell):
+.venv\Scripts\activate
+
+# Install all dependencies:
 pip install -e ".[dev]"
 ```
 
@@ -50,10 +61,21 @@ python assets/generate_placeholder.py
 
 ### 3 – Run the application
 
+**Option A – double-click (Windows, no terminal needed):**
+```
+run.bat
+```
+
+**Option B – from an activated venv terminal:**
 ```bash
-python -m app.main
-# or
+# activate the venv first (see step 1), then:
 python app/main.py
+```
+
+**Option C – explicit venv path (no activation needed):**
+```bash
+.venv/Scripts/python app/main.py      # Git Bash / MINGW64
+.venv\Scripts\python app\main.py      # Command Prompt
 ```
 
 ---
@@ -175,12 +197,13 @@ eye_tracking_aviation/
 
 | Problem | Fix |
 |---|---|
+| `DLL load failed while importing QtWidgets` | You are using the wrong Python or PySide6 ≥ 6.10.  Recreate the venv with **Anaconda Python** (`anaconda3/python -m venv .venv`) and run `pip install -e ".[dev]"` — the `pyproject.toml` pin `PySide6<6.10` will install the working 6.9.x version automatically. |
 | `RuntimeError: Cannot open camera` | Check `camera_index` in Settings; try 0, 1, 2 |
 | Poor calibration (RMS > 0.06) | Improve lighting; ensure face is centred; redo calibration |
 | Gaze jitter | Lower EMA alpha (more smoothing) in Settings |
 | Face not detected | Check lighting; ensure both eyes visible; reduce Min Confidence |
-| MediaPipe import error | `pip install mediapipe==0.10.14` |
-| PySide6 not found | `pip install PySide6` |
+| `ModuleNotFoundError: No module named 'cv2'` | Run `pip install -e ".[dev]"` inside the activated venv |
+| `ModuleNotFoundError: No module named 'mediapipe'` | Run `pip install mediapipe>=0.10.30` inside the activated venv |
 
 ---
 
